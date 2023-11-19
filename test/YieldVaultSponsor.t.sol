@@ -1,15 +1,15 @@
-// SPDX-License-Identifier: Unlicense
-pragma solidity ^0.8.13;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.19;
 
 import "forge-std/Test.sol";
 
-import "src/Contract.sol";
+import "src/YieldVaultSponsor.sol";
 
-contract TestContract is Test {
-    Contract c;
+contract TestYieldVaultSponsor is Test {
+    YieldVaultSponsor yieldVaultSponsor;
 
     function setUp() public {
-        c = new Contract();
+        yieldVaultSponsor = new YieldVaultSponsor();
     }
 
     function testBar() public {
