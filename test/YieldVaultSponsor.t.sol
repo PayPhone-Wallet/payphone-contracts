@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.19;
+pragma solidity ^0.8.23;
 
 import "forge-std/Test.sol";
 
@@ -9,7 +9,7 @@ contract TestYieldVaultSponsor is Test {
     YieldVaultSponsor yieldVaultSponsor;
 
     function setUp() public {
-        yieldVaultSponsor = new YieldVaultSponsor();
+        // yieldVaultSponsor = new YieldVaultSponsor();
     }
 
     function testBar() public {
