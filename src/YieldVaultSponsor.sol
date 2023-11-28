@@ -3,6 +3,7 @@ pragma solidity ^0.8.23;
 
 import { RolesAuthority, Authority } from "solmate/auth/authorities/RolesAuthority.sol";
 import { ERC4626, ERC20 } from "solmate/mixins/ERC4626.sol";
+import { IERC20 } from "openzeppelin/interfaces/IERC20.sol";
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // Errors
@@ -44,17 +45,17 @@ contract YieldVaultSponsor is RolesAuthority, ERC4626 {
     // Variables
     ////////////////////////////////////////////////////////////////////////////////////////
 
-    ERC20 public immutable yieldAsset;
+    IERC20 public immutable yieldAsset;
 
     ////////////////////////////////////////////////////////////////////////////////////////
     // Constructor
     ////////////////////////////////////////////////////////////////////////////////////////
 
     constructor(
-        ERC20 _yieldAsset,
+        IERC20 _yieldAsset,
         string memory _name,
         string memory _symbol
-    ) RolesAuthority(msg.sender, Authority(this)) ERC4626(_yieldAsset, _name, _symbol) {
+    ) RolesAuthority(msg.sender, Authority(this)) ERC4626(ERC20(address(_yieldAsset)), _name, _symbol) {
         if (address(0) == address(_yieldAsset)) revert YieldAssetZeroAddress();
         yieldAsset = _yieldAsset;
     }
