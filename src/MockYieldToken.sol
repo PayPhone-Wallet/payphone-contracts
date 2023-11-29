@@ -2,6 +2,7 @@
 pragma solidity ^0.8.23;
 
 import { ERC20 } from "./token/ERC20.sol";
+import { ERC4626 } from "solmate/mixins/ERC4626.sol";
 
 /// @notice This contract loosely simulates a yield bearing asset that increases with a predefined rate.
 contract MockYieldToken is ERC20 {
@@ -21,6 +22,14 @@ contract MockYieldToken is ERC20 {
 
     function mint(address to, uint256 amount) external {
         _mint(to, amount);
+    }
+
+    function mintAndDeposit(ERC4626 vault, address to, uint256 amount) external {
+        require(address(vault.asset()) == address(this), "asset incompatible");
+        _mint(address(this), amount);
+        uint256 _balance = balanceOf(address(this));
+        _approve(address(this), address(vault), _balance);
+        vault.deposit(_balance, to); 
     }
 
     function balanceOf(address account) public view override returns (uint256) {

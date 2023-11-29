@@ -3,15 +3,18 @@ pragma solidity ^0.8.23;
 
 import "forge-std/Test.sol";
 
-import "src/MockYieldToken.sol";
+import { MockYieldToken } from "src/MockYieldToken.sol";
+import { YieldVaultSponsor } from "src/YieldVaultSponsor.sol";
 
 contract TestMockYieldToken is Test {
     MockYieldToken mockYieldToken;
+    YieldVaultSponsor vault;
 
     event Transfer(address indexed from, address indexed to, uint256 value);
 
     function setUp() public {
         mockYieldToken = new MockYieldToken("mockUSD", "mUSD", 34e11); // ~3% APY hourly
+        vault = new YieldVaultSponsor(mockYieldToken, "PayPhone USD", "payUSD");
     }
 
     function test() public {
@@ -39,6 +42,11 @@ contract TestMockYieldToken is Test {
         assertApproxEqAbs(mockYieldToken.balanceOf(address(this)), 100e18, 1);
         assertApproxEqAbs(mockYieldToken.totalSupply(), _balance + 100e18, 1);
 
+    }
+
+    function testMintAndDeposit() public {
+        mockYieldToken.mintAndDeposit(vault, address(this), 101e18);
+        assertEq(vault.balanceOf(address(this)), 101e18);
     }
 
 }
