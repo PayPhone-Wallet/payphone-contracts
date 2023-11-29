@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "deploy:base-goerli": "forge script script/deploy.s.sol:Deploy --rpc-url $BASE_GOERLI_RPC_URL --sender $SENDER --private-key $PRIVATE_KEY --broadcast --verify --etherscan-api-key $BASESCAN_API_KEY --priority-gas-price 100000"
+  }
+}
